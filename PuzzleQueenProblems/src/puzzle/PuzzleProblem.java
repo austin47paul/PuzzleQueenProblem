@@ -4,11 +4,21 @@ import interfaces.Problem;
 import interfaces.State;
 
 public class PuzzleProblem implements Problem {
-
+	
+	String initState;
+	State current;
+	String actionSequence = "";
+	final String[] ACTIONS = { "U", "D", "L", "R" };
+	
+	
 	@Override
+	/**
+	 * Returns a string of actions taken so far.
+	 * @return actionSequence
+	 */
 	public String getActionSequence() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return actionSequence;
 	}
 
 	@Override
@@ -18,21 +28,36 @@ public class PuzzleProblem implements Problem {
 	}
 
 	@Override
-	public String getActions() {
-		// TODO Auto-generated method stub
-		return null;
+	public String[] getActions() {
+		
+		return ACTIONS;
 	}
 
 	@Override
 	public String getValidActions(String[] a, State s) {
-		// TODO Auto-generated method stub
-		return null;
+		String str = "";
+		for ( String action: a ){
+			 if ( s.validAction(action) )
+				 str += action;
+		}
+		return str;
 	}
 
 	@Override
 	public State act(String action) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public State getState() {
+		// TODO Auto-generated method stub
+		return current;
+	}
+
+	@Override
+	public void setState(State state) {
+		current = state;	
 	}
 
 }

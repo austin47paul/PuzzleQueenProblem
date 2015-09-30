@@ -3,7 +3,9 @@ package queens;
 import interfaces.State;
 
 public class QueensState implements State {
-
+	
+	int[][] current;
+	
 	@Override
 	public int[][] init(String str) {
 		// TODO Auto-generated method stub

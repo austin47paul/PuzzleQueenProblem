@@ -18,7 +18,7 @@ public class QueensProblem implements Problem {
 	}
 
 	@Override
-	public String getActions() {
+	public String[] getActions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -33,6 +33,18 @@ public class QueensProblem implements Problem {
 	public State act(String action) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public State getState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setState(State state) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

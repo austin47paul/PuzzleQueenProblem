@@ -4,9 +4,23 @@ import interfaces.State;
 
 public class PuzzleState implements State {
 	
-	int[][] current;
-	final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };
+	private int[][] current;
+	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };
 	
+	/**
+	 * Constructor used for initials state
+	 * @param ini
+	 */
+	public PuzzleState(String ini){
+		this.init(ini);
+	}
+	/**
+	 * Constructor for copied states
+	 * @param st
+	 */
+	public PuzzleState(State st){
+		this.current = st.getState();
+	}
 	@Override
 	/**
 	 * Takes a string input that generates the initial state
@@ -60,7 +74,7 @@ public class PuzzleState implements State {
 	 * @return	h	the calculated heuristic value.
 	 */
 	public int getHeuristic() {
-		int h ;
+		//int h ;
 		// TODO Loop through positions of current state
 		//		add the distance (up and over) to goal
 		//		position of that value.

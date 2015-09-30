@@ -23,8 +23,8 @@ public class QueensProblem implements Problem {
 		return null;
 	}
 
-	@Override
-	public String getValidActions(String[] a, State s) {
+	
+	public String getValidActions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

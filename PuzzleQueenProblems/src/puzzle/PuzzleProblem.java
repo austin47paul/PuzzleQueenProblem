@@ -5,11 +5,22 @@ import interfaces.State;
 
 public class PuzzleProblem implements Problem {
 	
-	String initState;
-	State current;
-	String actionSequence = "";
-	final String[] ACTIONS = { "U", "D", "L", "R" };
+	private String initState;
+	private State current;
+	private String actionSequence = "";
+	private final String[] ACTIONS = { "U", "D", "L", "R" };
 	
+	/**
+	 * Constructors
+	 * @param ini
+	 */
+	public PuzzleProblem(String ini){
+		this.initState = ini;
+		this.current = new PuzzleState(ini);
+	}
+	public PuzzleProblem(PuzzleProblem prob) {
+		this.current = new PuzzleState(prob.getState());
+	}
 	
 	@Override
 	/**
@@ -33,11 +44,11 @@ public class PuzzleProblem implements Problem {
 		return ACTIONS;
 	}
 
-	@Override
-	public String getValidActions(String[] a, State s) {
+	
+	public String getValidActions(String[] a) {
 		String str = "";
 		for ( String action: a ){
-			 if ( s.validAction(action) )
+			 if ( current.validAction(action) )
 				 str += action;
 		}
 		return str;

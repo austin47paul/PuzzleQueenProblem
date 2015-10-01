@@ -11,11 +11,6 @@ public class QueensProblem implements Problem {
 		return null;
 	}
 
-	@Override
-	public String getSolutions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String[] getActions() {
@@ -45,6 +40,20 @@ public class QueensProblem implements Problem {
 	public void setState(State state) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public State chooseAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public State getBestNeighbor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

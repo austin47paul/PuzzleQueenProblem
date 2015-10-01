@@ -7,5 +7,5 @@ public interface ProblemSolver {
 	public State hcFirstChoice(Problem prob);
 	public State hcRandomRestart(Problem prob);
 	public State simulatedAnnealing(Problem p, Map<Integer, Integer> schedule);
-	
+	public State[] getSolutions();
 }

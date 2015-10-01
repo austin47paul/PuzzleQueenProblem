@@ -32,4 +32,10 @@ public class QueensProblemSolver implements ProblemSolver {
 		return null;
 	}
 
+	@Override
+	public State[] getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

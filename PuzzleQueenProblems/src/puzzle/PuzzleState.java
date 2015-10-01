@@ -6,13 +6,14 @@ public class PuzzleState implements State {
 	
 	private int[][] current;
 	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };
-	
+	private int value;
 	/**
 	 * Constructor used for initials state
 	 * @param ini
 	 */
 	public PuzzleState(String ini){
 		this.init(ini);
+		this.getHeuristic();
 	}
 	
 	/**
@@ -57,7 +58,9 @@ public class PuzzleState implements State {
 	 */
 	public int[][] getState() 
 		{ return current; }
-
+	
+	public int getValue() { return value; }
+	
 	@Override
 	/**
 	 * Determines if given action is valid.
@@ -95,7 +98,7 @@ public class PuzzleState implements State {
 	 * The Heuristic Function is the accumulation of each digit from its goal position.
 	 * @return	h	the calculated heuristic value.
 	 */
-	public int getHeuristic() {
+	public void getHeuristic() {
 		int h = 0;
 		// TODO Loop through positions of current state
 		//		add the distance (up and over) to goal
@@ -108,7 +111,7 @@ public class PuzzleState implements State {
 				h += Math.abs(j - pos[1]);
 			}
 		}
-		return h;
+		value = h;
 	}
 
 	@Override

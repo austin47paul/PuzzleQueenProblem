@@ -31,15 +31,21 @@ public class QueensState implements State {
 	}
 
 	@Override
-	public int getHeuristic() {
+	public void getHeuristic() {
 		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 
 	@Override
 	public int[][] act(String action) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

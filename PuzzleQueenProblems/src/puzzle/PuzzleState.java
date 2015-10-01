@@ -25,11 +25,20 @@ public class PuzzleState implements State {
 	/**
 	 * Takes a string input that generates the initial state
 	 * @param 	str		a line of number 0-8 to be turned into an array.
-	 * @return 	current	intialized state
+	 * @return 	current	initialized state
 	 */
 	public int[][] init(String str) {
 		// TODO Check string size (8) and contains digits
 		//		initialize current
+		if ( str.length() != 8 || !str.matches("[0-8]+") )
+			return null;
+		char[] ini = str.toCharArray();
+		int pos = 0;
+		for(int i = 0; i <current.length; i++ ) {
+			for(int j = 0; j< current[i].length; j++) {
+				current[i][j] = ini[pos];
+			}
+		}
 		return current;
 	}
 
@@ -37,18 +46,15 @@ public class PuzzleState implements State {
 	/**
 	 * returns goalState 
 	 */
-	public int[][] getGoalState() {
-		// TODO Auto-generated method stub
-		return goalState;
-	}
+	public int[][] getGoalState() 
+		{ return goalState; }
 
 	@Override
 	/**
 	 * returns current
 	 */
-	public int[][] getState() {
-		return current;
-	}
+	public int[][] getState() 
+		{ return current; }
 
 	@Override
 	/**
@@ -88,9 +94,57 @@ public class PuzzleState implements State {
 	 * @return	current 	new state
 	 */
 	public int[][] act(String action) {
-		// TODO	Swap the zero with the corresponding 
-		// 		value in that direction. 
+ 
+		int[] pos = findLocation(0);
+		int val = 0;
+		
+		if ( action.equals("U") ) {
+			
+			val = current[pos[0]-1][pos[1]];
+			current[pos[0]-1][pos[1]] = 0;
+			current[pos[0]][pos[1]] = val;
+			
+		} else if ( action.equals("D") ) {
+			
+			val = current[pos[0]+1][pos[1]];
+			current[pos[0]+1][pos[1]] = 0;
+			current[pos[0]][pos[1]] = val;
+			
+		} else if ( action.equals("L") ) {
+			
+			val = current[pos[0]][pos[1]-1];
+			current[pos[0]][pos[1]-1] = 0;
+			current[pos[0]][pos[1]] = val;
+			
+		} else if ( action.equals("R") ) {
+			
+			val = current[pos[0]][pos[1]+1];
+			current[pos[0]][pos[1]+1] = 0;
+			current[pos[0]][pos[1]] = val;
+			
+		} else { return null; }
+		
 		return current;
+	}
+	
+	/**
+	 * Given a value return an array length 2 of the coordinates.
+	 * @param val
+	 * @return location an pair state coordinates
+	 */
+	public int[] findLocation(int val) {
+		int[] location = new int[2];
+		
+		for ( int i = 0; i<current.length; i++ ) {
+			for ( int j = 0; i<current[i].length; j++ ) {
+				if ( current[i][j] == val ) {
+					location[0] = i;
+					location[1] = j;
+					return location;
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -14,6 +14,7 @@ public class PuzzleState implements State {
 	public PuzzleState(String ini){
 		this.init(ini);
 	}
+	
 	/**
 	 * Constructor for copied states
 	 * @param st
@@ -21,6 +22,7 @@ public class PuzzleState implements State {
 	public PuzzleState(State st){
 		this.current = st.getState();
 	}
+	
 	@Override
 	/**
 	 * Takes a string input that generates the initial state
@@ -59,18 +61,32 @@ public class PuzzleState implements State {
 	@Override
 	/**
 	 * Determines if given action is valid.
-	 * returns true if blank space can be swapped in that direction
+	 * @param action String  U,D,L,or R
+	 * @returns true if blank space can be swapped in that direction
 	 * 			false if not
 	 */
 	public boolean validAction(String action) {
 		// TODO get coordinates of zero
 		//
-		//		if zero in top row and action == "U"
-		//		if zero in bottom row and action == "D"
-		//		if zero in left column and action == "L"
-		//		or if zero in right column and action == "R"
-		//		else return true
-		return false;
+		//		if zero not in top row and action == "U"
+		//		if zero not in bottom row and action == "D"
+		//		if zero not in left column and action == "L"
+		//		or if zero not in right column and action == "R"
+		//		else return false
+		
+		int[] zero = findLocation(0);
+		
+		if (action.equals("U")) {
+			return zero[0] != 0;
+		} else if (action.equals("D")) {
+			return zero[0] != 2;
+		} else if (action.equals("L")) {
+			return zero[1] != 0;
+		} else if (action.equals("R")) {
+			return zero[1] != 2;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -80,11 +96,19 @@ public class PuzzleState implements State {
 	 * @return	h	the calculated heuristic value.
 	 */
 	public int getHeuristic() {
-		//int h ;
+		int h = 0;
 		// TODO Loop through positions of current state
 		//		add the distance (up and over) to goal
 		//		position of that value.
-		return 0;
+		int[] pos;
+		for( int i = 0; i<current.length; i++ ){
+			for ( int j = 0; j<current[i].length; j++ ) {
+				pos = findLocation(goalState[i][j]);
+				h += Math.abs(i - pos[0]);
+				h += Math.abs(j - pos[1]);
+			}
+		}
+		return h;
 	}
 
 	@Override
@@ -95,7 +119,7 @@ public class PuzzleState implements State {
 	 */
 	public int[][] act(String action) {
  
-		int[] pos = findLocation(0);
+		int[] pos = findLocation(0); // location of zero
 		int val = 0;
 		
 		if ( action.equals("U") ) {

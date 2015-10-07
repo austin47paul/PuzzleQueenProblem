@@ -12,7 +12,8 @@ public class PuzzleProblem implements Problem {
 	private State current;
 	private String actionSequence = "";
 	private final String[] ACTIONS = { "U", "D", "L", "R" };
-	public int steps;
+	public int pathCost;
+	
 	/**
 	 * Constructors
 	 * @param ini
@@ -20,14 +21,16 @@ public class PuzzleProblem implements Problem {
 	public PuzzleProblem(String ini){
 		this.initState = ini;
 		this.current = new PuzzleState(ini);
-		this.steps = 0;
+		this.pathCost = 0;
 	}
 	public PuzzleProblem(PuzzleProblem prob) {
 		this.current = new PuzzleState(prob.getState());
 		this.initState = prob.initState;
 		this.actionSequence = prob.getActionSequence();
-		this.steps = prob.steps;
+		this.pathCost = prob.pathCost;
 	}
+	
+	public String getInitStr() { return initState; }
 	
 	@Override
 	/**
@@ -45,10 +48,11 @@ public class PuzzleProblem implements Problem {
 		ArrayList<PuzzleState> neighbors = getNeighbors();
 		PuzzleState topval = neighbors.get(0);
 		for ( PuzzleState state : neighbors ) {
-			if (state.getValue() > topval.getValue())	{
+			if (state.getValue() < topval.getValue())	{
 				topval = state;
 			}
 		}
+		System.out.println("Best Neighbor: " + topval.getString());
 		return topval;
 	}
 	
@@ -61,9 +65,11 @@ public class PuzzleProblem implements Problem {
 	public ArrayList<PuzzleState> getNeighbors() {
 		ArrayList<PuzzleState> neighbors = new ArrayList<PuzzleState>();
 		PuzzleState neighbor;
+		System.out.println("getting neighbors.");
 		for (String act: ACTIONS) {
 			if (current.validAction(act)){
-				neighbor = new PuzzleState(current);
+				//System.out.println("Action: " + act + " on " + current.getString());
+				neighbor = new PuzzleState(current.getString());
 				neighbor.act(act);
 				neighbors.add(neighbor);
 			}	
@@ -87,12 +93,19 @@ public class PuzzleProblem implements Problem {
 		}
 		return str;
 	}
-	public int getSteps() {return steps;}
+	
+	public int getSteps() {return pathCost;}
+	
 	@Override
 	public State act(String action) {
 		current.act(action);
-		steps++;
+		actionSequence.concat(action+",");
 		return current;
+	}
+	
+	public void addAction(String act) {
+		pathCost++;
+		actionSequence.concat(act);
 	}
 
 	@Override
@@ -101,12 +114,21 @@ public class PuzzleProblem implements Problem {
 	
 	@Override
 	public void setState(State state) 
-		{ current = state; }
-	@Override
-	public State chooseAction() {
-		// TODO Auto-generated method stub
-		return null;
+		{ current = new PuzzleState(state.getString()); }
+	
+	/**
+	 * Makes a new puzzle state with a random init state
+	 */
+	public void randomizeState() {
+		
+		ArrayList<Integer> lst = new ArrayList<Integer>();
+		for(int i = 0; i<9; i++)// adds 0-8 to list
+			lst.add(i);
+		Collections.shuffle(lst);//randomizes list
+		String str="";
+		for(Integer i : lst)
+			str.concat(String.valueOf(i));
+		current = new PuzzleState(str);
 	}
-
 	
 }

@@ -44,16 +44,16 @@ public class QueensProblem implements Problem {
 
 
 	@Override
-	public State chooseAction() {
+	public State getBestNeighbor() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public State getBestNeighbor() {
+	public void randomizeState() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

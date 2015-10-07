@@ -7,6 +7,6 @@ public interface Problem {
 	public State act(String action);
 	public State getState();
 	public void setState(State state);
-	public State chooseAction();
 	public State getBestNeighbor();
+	public void randomizeState();
 }

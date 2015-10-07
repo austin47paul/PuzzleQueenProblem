@@ -1,11 +1,10 @@
 package interfaces;
 
-import java.util.Map;
-
 public interface ProblemSolver {
-	public State hcSteepestAscent(Problem prob);
-	public State hcFirstChoice(Problem prob);
-	public State hcRandomRestart(Problem prob);
-	public State simulatedAnnealing(Problem p, Map<Integer, Integer> schedule);
-	public State[] getSolutions();
+	public Problem hcSteepestAscent(Problem prob);
+	public Problem hcFirstChoice(Problem prob);
+	public Problem hcRandomRestart(Problem prob);
+	public Problem simulatedAnnealing(Problem p);
+	public double scheduleFunction(int t);
+	public Problem[] getSolutions();
 }

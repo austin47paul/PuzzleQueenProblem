@@ -7,11 +7,13 @@ public class PuzzleState implements State {
 	private int[][] current;
 	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };
 	private int value;
+	public String actstr;
 	/**
 	 * Constructor used for initials state
 	 * @param ini
 	 */
 	public PuzzleState(String ini){
+		current = new int[3][3];
 		this.init(ini);
 		this.getHeuristic();
 	}
@@ -20,9 +22,12 @@ public class PuzzleState implements State {
 	 * Constructor for copied states
 	 * @param st
 	 */
-	public PuzzleState(State st){
-		this.current = st.getState();
+	public PuzzleState(State st) {
+		current = new int[3][3];
+		init(st.getState().toString());
+		getHeuristic();
 	}
+	
 	
 	@Override
 	/**
@@ -31,15 +36,17 @@ public class PuzzleState implements State {
 	 * @return 	current	initialized state
 	 */
 	public int[][] init(String str) {
-		// TODO Check string size (8) and contains digits
+		//  Check string size (8) and contains digits
 		//		initialize current
-		if ( str.length() != 8 || !str.matches("[0-8]+") )
-			return null;
+		//if ( str.length() != 8 || !str.matches("[0-8]+") )
+		//	return null;
 		char[] ini = str.toCharArray();
+		
 		int pos = 0;
 		for(int i = 0; i <current.length; i++ ) {
 			for(int j = 0; j< current[i].length; j++) {
-				current[i][j] = ini[pos];
+				current[i][j] = ini[pos]-48;
+				pos++;
 			}
 		}
 		return current;
@@ -64,18 +71,11 @@ public class PuzzleState implements State {
 	@Override
 	/**
 	 * Determines if given action is valid.
-	 * @param action String  U,D,L,or R
+	 * @param action String  U, D, L, or R
 	 * @returns true if blank space can be swapped in that direction
 	 * 			false if not
 	 */
 	public boolean validAction(String action) {
-		// TODO get coordinates of zero
-		//
-		//		if zero not in top row and action == "U"
-		//		if zero not in bottom row and action == "D"
-		//		if zero not in left column and action == "L"
-		//		or if zero not in right column and action == "R"
-		//		else return false
 		
 		int[] zero = findLocation(0);
 		
@@ -100,17 +100,19 @@ public class PuzzleState implements State {
 	 */
 	public void getHeuristic() {
 		int h = 0;
-		// TODO Loop through positions of current state
-		//		add the distance (up and over) to goal
-		//		position of that value.
-		int[] pos;
-		for( int i = 0; i<current.length; i++ ){
+		System.out.println("Calc Heuristic.");
+		int[] pos = new int[2];
+		
+		for ( int i = 0; i<current.length; i++ ) {
 			for ( int j = 0; j<current[i].length; j++ ) {
+				
+				//System.out.println("state"+current[i][j] + " " +"goal"+ goalState[i][j]);
 				pos = findLocation(goalState[i][j]);
 				h += Math.abs(i - pos[0]);
 				h += Math.abs(j - pos[1]);
 			}
 		}
+		//System.out.println(getString());
 		value = h;
 	}
 
@@ -121,10 +123,10 @@ public class PuzzleState implements State {
 	 * @return	current 	new state
 	 */
 	public int[][] act(String action) {
- 
 		int[] pos = findLocation(0); // location of zero
 		int val = 0;
-		
+		System.out.print("Action: " + action + " val:" + val + " r:" + pos[0] + " c:" + pos[1] + "\n");		
+		actstr = action;
 		if ( action.equals("U") ) {
 			
 			val = current[pos[0]-1][pos[1]];
@@ -151,6 +153,8 @@ public class PuzzleState implements State {
 			
 		} else { return null; }
 		
+		getHeuristic();
+		System.out.println(" H: " + getValue() + " " + getString());
 		return current;
 	}
 	
@@ -160,18 +164,35 @@ public class PuzzleState implements State {
 	 * @return location an pair state coordinates
 	 */
 	public int[] findLocation(int val) {
-		int[] location = new int[2];
 		
+		int[] location = new int[2];
+		boolean bool = false;
 		for ( int i = 0; i<current.length; i++ ) {
-			for ( int j = 0; i<current[i].length; j++ ) {
+			for ( int j = 0; j<current[i].length; j++ ) {
+				
 				if ( current[i][j] == val ) {
 					location[0] = i;
 					location[1] = j;
-					return location;
+					bool = true;
+					break;
 				}
 			}
+			if ( bool) break;
 		}
-		return null;
+		return location;
+	}
+	
+	
+	public String getString() {
+		String str = "";
+		for ( int i = 0; i < current.length; i++) {
+			for ( int j = 0; j < current[i].length; j++ ) {
+				str += String.valueOf(current[i][j]);
+				System.out.print( current[i][j] + " ");
+			}
+			System.out.println();
+		}
+		return str;
 	}
 
 }

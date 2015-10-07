@@ -9,33 +9,39 @@ import interfaces.State;
 public class QueensProblemSolver implements ProblemSolver {
 
 	@Override
-	public State hcSteepestAscent(Problem prob) {
+	public Problem hcSteepestAscent(Problem prob) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public State hcFirstChoice(Problem prob) {
+	public Problem hcFirstChoice(Problem prob) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public State hcRandomRestart(Problem prob) {
+	public Problem hcRandomRestart(Problem prob) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public State simulatedAnnealing(Problem p, Map<Integer, Integer> schedule) {
+	public Problem simulatedAnnealing(Problem p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public State[] getSolutions() {
+	public Problem[] getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double scheduleFunction(int t) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -36,6 +36,10 @@ public class QueensState implements State {
 		return false;
 	}
 
+	public int[] getAttackingQueens(){
+		return null;
+	}
+	
 	@Override
 	public void getHeuristic() {
 		int cost = 0;
@@ -134,5 +138,11 @@ public class QueensState implements State {
 			for ( int j = 0; j<q[i].length; j++)
 				q[i][j] = 0;
 		return q;
+	}
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

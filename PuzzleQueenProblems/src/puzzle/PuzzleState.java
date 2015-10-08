@@ -4,10 +4,11 @@ import interfaces.State;
 
 public class PuzzleState implements State {
 	
-	private int[][] current;
-	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };
-	private int value;
-	public String actstr;
+	private int[][] current;		// matrix of current puzzle board
+	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };	// matrix of goal puzzle board
+	private int value;				// the heuristic mearsurement of current
+	public String actstr;			// a string to keep track of the action that brought this state to existence
+	
 	/**
 	 * Constructor used for initials state
 	 * @param ini
@@ -28,7 +29,6 @@ public class PuzzleState implements State {
 		getHeuristic();
 	}
 	
-	
 	@Override
 	/**
 	 * Takes a string input that generates the initial state
@@ -38,8 +38,6 @@ public class PuzzleState implements State {
 	public int[][] init(String str) {
 		//  Check string size (8) and contains digits
 		//		initialize current
-		//if ( str.length() != 8 || !str.matches("[0-8]+") )
-		//	return null;
 		char[] ini = str.toCharArray();
 		
 		int pos = 0;
@@ -100,19 +98,17 @@ public class PuzzleState implements State {
 	 */
 	public void getHeuristic() {
 		int h = 0;
-		System.out.println("Calc Heuristic.");
+		//System.out.println("Calc Heuristic.");
 		int[] pos = new int[2];
 		
 		for ( int i = 0; i<current.length; i++ ) {
 			for ( int j = 0; j<current[i].length; j++ ) {
 				
-				//System.out.println("state"+current[i][j] + " " +"goal"+ goalState[i][j]);
 				pos = findLocation(goalState[i][j]);
 				h += Math.abs(i - pos[0]);
 				h += Math.abs(j - pos[1]);
 			}
 		}
-		//System.out.println(getString());
 		value = h;
 	}
 
@@ -125,8 +121,8 @@ public class PuzzleState implements State {
 	public int[][] act(String action) {
 		int[] pos = findLocation(0); // location of zero
 		int val = 0;
-		System.out.print("Action: " + action + " val:" + val + " r:" + pos[0] + " c:" + pos[1] + "\n");		
 		actstr = action;
+		
 		if ( action.equals("U") ) {
 			
 			val = current[pos[0]-1][pos[1]];
@@ -154,7 +150,6 @@ public class PuzzleState implements State {
 		} else { return null; }
 		
 		getHeuristic();
-		System.out.println(" H: " + getValue() + " " + getString());
 		return current;
 	}
 	
@@ -182,15 +177,15 @@ public class PuzzleState implements State {
 		return location;
 	}
 	
-	
+	/**
+	 * @return str	the string value of the current puzzle board
+	 */
 	public String getString() {
 		String str = "";
 		for ( int i = 0; i < current.length; i++) {
 			for ( int j = 0; j < current[i].length; j++ ) {
 				str += String.valueOf(current[i][j]);
-				System.out.print( current[i][j] + " ");
 			}
-			System.out.println();
 		}
 		return str;
 	}

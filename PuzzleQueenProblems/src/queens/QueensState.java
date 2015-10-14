@@ -140,8 +140,13 @@ public class QueensState implements State {
 		return q;
 	}
 
-	@Override
 	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getString(int[][] state) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,5 +8,5 @@ public interface State {
 	public boolean validAction(String action);
 	public void	   getHeuristic();
 	public int[][] act(String action);
-	public String  getString();
+	public String  getString(int[][] state);
 }

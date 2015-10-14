@@ -5,17 +5,18 @@ import interfaces.State;
 public class PuzzleState implements State {
 	
 	private int[][] current;		// matrix of current puzzle board
-	private final int[][] goalState = { { 0, 1, 2 } , { 3, 4, 5 }, { 6, 7, 8} };	// matrix of goal puzzle board
-	private int value;				// the heuristic mearsurement of current
+	private  int[][] goalState;		// matrix of goal puzzle board
+	private int value;				// the heuristic measurement of current
 	public String actstr;			// a string to keep track of the action that brought this state to existence
 	
 	/**
 	 * Constructor used for initials state
 	 * @param ini
 	 */
-	public PuzzleState(String ini){
+	public PuzzleState(String ini,String goal){
 		current = new int[3][3];
-		this.init(ini);
+		current = init(ini);
+		goalState = init(goal);
 		this.getHeuristic();
 	}
 	
@@ -23,9 +24,11 @@ public class PuzzleState implements State {
 	 * Constructor for copied states
 	 * @param st
 	 */
-	public PuzzleState(State st) {
+	public PuzzleState(PuzzleState st) {
 		current = new int[3][3];
-		init(st.getState().toString());
+		goalState = new int[3][3];
+		current = init(st.getString(st.getState()));
+		goalState = init(st.getString(st.getGoalState()));
 		getHeuristic();
 	}
 	
@@ -39,15 +42,15 @@ public class PuzzleState implements State {
 		//  Check string size (8) and contains digits
 		//		initialize current
 		char[] ini = str.toCharArray();
-		
+		int[][] temp = new int[3][3];
 		int pos = 0;
-		for(int i = 0; i <current.length; i++ ) {
-			for(int j = 0; j< current[i].length; j++) {
-				current[i][j] = ini[pos]-48;
+		for(int i = 0; i <temp.length; i++ ) {
+			for(int j = 0; j< temp[i].length; j++) {
+				temp[i][j] = ini[pos]-48;
 				pos++;
 			}
 		}
-		return current;
+		return temp;
 	}
 
 	@Override
@@ -180,11 +183,11 @@ public class PuzzleState implements State {
 	/**
 	 * @return str	the string value of the current puzzle board
 	 */
-	public String getString() {
+	public String getString(int[][] state) {
 		String str = "";
-		for ( int i = 0; i < current.length; i++) {
-			for ( int j = 0; j < current[i].length; j++ ) {
-				str += String.valueOf(current[i][j]);
+		for ( int i = 0; i < state.length; i++) {
+			for ( int j = 0; j < state[i].length; j++ ) {
+				str += String.valueOf(state[i][j]);
 			}
 		}
 		return str;

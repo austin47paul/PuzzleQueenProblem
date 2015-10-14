@@ -16,19 +16,19 @@ public class PuzzleProblemSolver implements ProblemSolver {
 	 * Calls each strategy with a different instance of the Puzzle problem
 	 * @param ini	String input from a line of a puzzle test file
 	 */
-	public PuzzleProblemSolver(String ini) {
+	public PuzzleProblemSolver(String ini, String goal) {
 		
-		System.out.println("Starting HillClimbing");
-		solutions[0] = (PuzzleProblem) hcSteepestAscent(new PuzzleProblem(ini));
+		//System.out.println("Starting HillClimbing");
+		solutions[0] = (PuzzleProblem) hcSteepestAscent(new PuzzleProblem(ini,goal));
 		
-		System.out.println("Starting FirstChoice");
-		solutions[1] = (PuzzleProblem) hcFirstChoice(new PuzzleProblem(ini));
+		//System.out.println("Starting FirstChoice");
+		solutions[1] = (PuzzleProblem) hcFirstChoice(new PuzzleProblem(ini,goal));
 		
-		System.out.println("Starting Random Restart");
-		solutions[2] = (PuzzleProblem) hcRandomRestart(new PuzzleProblem(ini));
+		//System.out.println("Starting Random Restart");
+		solutions[2] = (PuzzleProblem) hcRandomRestart(new PuzzleProblem(ini,goal));
 		
-		System.out.println("Starting Simulated Annealing");
-		solutions[3] = (PuzzleProblem) simulatedAnnealing(new PuzzleProblem(ini));
+		//System.out.println("Starting Simulated Annealing");
+		solutions[3] = (PuzzleProblem) simulatedAnnealing(new PuzzleProblem(ini,goal));
 		/**/
 	}
 	
@@ -107,7 +107,8 @@ public class PuzzleProblemSolver implements ProblemSolver {
 		PuzzleState neighbor;
 		
 		while(current.getState().getValue() > 0) {
-			current.randomizeState();
+			if (current.getSteps() > 0)
+				current.randomizeState();
 			//current.addAction("r");	// r for restart
 
 			while(true) {
@@ -117,6 +118,8 @@ public class PuzzleProblemSolver implements ProblemSolver {
 				//current.addAction(neighbor.actstr);
 				current.setState(neighbor);
 			}
+			current.addAction(neighbor.actstr);
+
 		}
 		current.getState().getHeuristic();
 		return current;

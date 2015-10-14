@@ -10,7 +10,7 @@ public class PuzzleProblem implements Problem {
 	
 	public String initState;		// to save the initial state after actions
 	private State current;			// the current state of the problem
-	private String actionSequence = "";		// accumlated after each choice is made
+	private String actionSequence = "";		// Accumulated after each choice is made
 	private final String[] ACTIONS = { "U", "D", "L", "R" };	//possible actions to be made
 	public int pathCost;					// amount of actions chosen
 	
@@ -18,13 +18,13 @@ public class PuzzleProblem implements Problem {
 	 * Constructors
 	 * @param ini
 	 */
-	public PuzzleProblem(String ini){
+	public PuzzleProblem(String ini, String goal){
 		this.initState = ini;
-		this.current = new PuzzleState(ini);
+		this.current = new PuzzleState(ini,goal);
 		this.pathCost = 0;
 	}
 	public PuzzleProblem(PuzzleProblem prob) {
-		this.current = new PuzzleState(prob.getState());
+		this.current = new PuzzleState((PuzzleState) prob.getState());
 		this.initState = prob.initState;
 		this.actionSequence = prob.getActionSequence();
 		this.pathCost = prob.pathCost;
@@ -81,7 +81,8 @@ public class PuzzleProblem implements Problem {
 		for (String act: ACTIONS) {
 			if (current.validAction(act)){
 				//System.out.println("Action: " + act + " on " + current.getString());
-				neighbor = new PuzzleState(current.getString());
+				neighbor = new PuzzleState(current.getString(current.getState()),
+											current.getString(current.getGoalState()));
 				neighbor.act(act);
 				neighbors.add(neighbor);
 			}	
@@ -150,7 +151,9 @@ public class PuzzleProblem implements Problem {
 	 */
 	@Override
 	public void setState(State state) 
-		{ current = new PuzzleState(state.getString()); }
+		{ current = new PuzzleState(state.getString(state.getState()),
+									state.getString(state.getGoalState())); 
+		}
 	
 	/**
 	 * Makes a new puzzle state with a random init state
@@ -165,8 +168,8 @@ public class PuzzleProblem implements Problem {
 		for(Integer i : lst)
 			str += String.valueOf(i);
 		//System.out.println(str);
-		current = new PuzzleState(str);
-		pathCost++;
+		current = new PuzzleState(str,current.getString(current.getGoalState()));
+		//pathCost++;
 	}
 	
 }

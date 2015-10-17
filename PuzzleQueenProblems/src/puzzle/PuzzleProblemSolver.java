@@ -20,15 +20,60 @@ public class PuzzleProblemSolver implements ProblemSolver {
 		
 		//System.out.println("Starting HillClimbing");
 		solutions[0] = (PuzzleProblem) hcSteepestAscent(new PuzzleProblem(ini,goal));
+		String str = //"StpAs: " //+ "Init: " + solutions[0].getInitStr() 
+			//	+ " End: " + solutions[0].getState().getString(solutions[0].getState().getState())
+			//	+ " Goal: " + solutions[0].getState().getString(solutions[0].getState().getGoalState())
+			//	+ " Actions: " + solutions[0].getActionSequence()
+				//+ "OptSol: " 
+				+ solutions[0].getOptCost() 
+				+ "\t" //+ "SchCst: " 
+				+ solutions[0].getSearchCost() + "\t"  
+				//+"\tHrstc " 
+				+ solutions[0].getState().getValue();
+		System.out.println(str);
 		
 		//System.out.println("Starting FirstChoice");
 		solutions[1] = (PuzzleProblem) hcFirstChoice(new PuzzleProblem(ini,goal));
+		 str = //"FirCh: " //+ "Init: " + solutions[1].getInitStr() 
+			//	+ " End: " + solutions[1].getState().getString(solutions[1].getState().getState())
+			//	+ " Goal: " + solutions[1].getState().getString(solutions[1].getState().getGoalState())
+			//	+ " Actions: " + solutions[1].getActionSequence() + " "
+				//+ "OptSol: " 
+				+ solutions[1].getOptCost() 
+				//+ "\tSchCst: " + 
+				+ "\t" + solutions[1].getSearchCost() 
+				//+ "\t\tHrstc " 
+				+ "\t" + solutions[1].getState().getValue();
+		System.out.println(str);
 		
 		//System.out.println("Starting Random Restart");
 		solutions[2] = (PuzzleProblem) hcRandomRestart(new PuzzleProblem(ini,goal));
+		 str = //"RanRe: " //+ "Init: " + solutions[2].getInitStr() 
+			//	+ " End: " + solutions[2].getState().getString(solutions[2].getState().getState())
+			//	+ " Goal: " + solutions[2].getState().getString(solutions[2].getState().getGoalState())
+			//	+ " Actions: " + solutions[2].getActionSequence() + " \n" 
+				//+ "OptSol: " 
+				 + solutions[2].getOptCost() 
+				//+ "\tSchCst: " 
+				+ "\t" + solutions[2].getSearchCost() 
+				//+ "\t\tHrstc " 
+				+ "\t" + solutions[2].getState().getValue();
+		System.out.println(str);
 		
 		//System.out.println("Starting Simulated Annealing");
 		solutions[3] = (PuzzleProblem) simulatedAnnealing(new PuzzleProblem(ini,goal));
+		 str = //"SimAn: "//+"Init: " + solutions[3].getInitStr() 
+				//+ " End: " + solutions[3].getState().getString(solutions[3].getState().getState())
+				//+ " Goal: " + solutions[3].getState().getString(solutions[3].getState().getGoalState())
+			//	+ " Actions: " + solutions[3].getActionSequence() + " \n" 
+			//+ "OptSol: " 
+			+ solutions[3].getOptCost() 
+			//+ "\tSchCst: " 
+			+ "\t" + solutions[3].getSearchCost() 
+			//+ "\t\tHrstc " 
+			+ "\t" + solutions[3].getState().getValue();
+		System.out.println(str);
+
 		/**/
 	}
 	
@@ -86,7 +131,7 @@ public class PuzzleProblemSolver implements ProblemSolver {
 	 */
 	private PuzzleState firstChoice( ArrayList<PuzzleState> neighbors, PuzzleProblem prob) {
 		for ( PuzzleState neighbor: neighbors ) {
-			if ( neighbor.getValue() <= prob.getState().getValue() ) {
+			if ( neighbor.getValue() < prob.getState().getValue() ) {
 				//System.out.println("Random Neighbor " + neighbor.getString());
 				return neighbor;
 			}
@@ -107,21 +152,27 @@ public class PuzzleProblemSolver implements ProblemSolver {
 		PuzzleState neighbor;
 		
 		while(current.getState().getValue() > 0) {
-			if (current.getSteps() > 0)
+			if (current.getPathCost() > 0)
 				current.randomizeState();
 			//current.addAction("r");	// r for restart
-
+			//current = (PuzzleProblem) hcSteepestAscent(current);
+			//*
+			
 			while(true) {
 				neighbor = (PuzzleState)current.getBestNeighbor();
-				if ( neighbor.getValue() >= current.getState().getValue() )
+								if ( neighbor.getValue() >= current.getState().getValue() ) {
 					break;
-				//current.addAction(neighbor.actstr);
+				}
+				
 				current.setState(neighbor);
-			}
+			}					
 			current.addAction(neighbor.actstr);
+			current.getState().getHeuristic();
+			//System.out.println("test " + current.getSearchCost() +" "+  neighbor.getValue() + " " + current.getState().getValue());
 
+			// */
 		}
-		current.getState().getHeuristic();
+		
 		return current;
 	}
 
@@ -140,8 +191,9 @@ public class PuzzleProblemSolver implements ProblemSolver {
 		int deltaE;
 		while (t < Integer.MAX_VALUE) {
 			T = (int)scheduleFunction(t++);
-			if (T == 0)
+			if (T == 0 || current.getState().getValue() == 0 )
 				return current;
+		
 			next = current.getRandomNeighbors().get(0);
 			deltaE = current.getState().getValue() - next.getValue();
 			if (deltaE > 0)	{
@@ -150,8 +202,9 @@ public class PuzzleProblemSolver implements ProblemSolver {
 			} else {
 				Random rand = new Random();
 				double prob = Math.exp(deltaE / T);		// probability of accepting worse state
-				int num = rand.nextInt(100+1);			// random integer between 0 and 100
-				if ( 0 < num && num < prob*100) {		// if integer is within probability
+				//System.out.print(" " + prob + " " + T);
+				int num = rand.nextInt(1000+1);			// random integer between 0 and 100
+				if ( 0 < num && num < prob*1000) {		// if integer is within probability
 					current.addAction(next.actstr);
 					current.setState(next);
 				}
@@ -163,15 +216,12 @@ public class PuzzleProblemSolver implements ProblemSolver {
 	
 	/**
 	 * schedule function for simulated annealing strategy.
-	 * delta f = -1.3; palpha = .8; T naught = delta f / p alpha
-	 * schedule fn = T naught / ( t + 1 )
 	 * @param t		the current step of the annealing
 	 * @return	temp	the current tempurature of the problem
 	 */
 	@Override
 	public double scheduleFunction(int t) {
-			double temp =  (-1.3/ Math.log(.8))/(t+1);
+			double temp =  (10/ Math.log(t));// /(t+1);
 			return temp;
 	}
-
 }

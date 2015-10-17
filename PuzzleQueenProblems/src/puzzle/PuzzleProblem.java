@@ -12,7 +12,9 @@ public class PuzzleProblem implements Problem {
 	private State current;			// the current state of the problem
 	private String actionSequence = "";		// Accumulated after each choice is made
 	private final String[] ACTIONS = { "U", "D", "L", "R" };	//possible actions to be made
-	public int pathCost;					// amount of actions chosen
+	public int searchCost;					// amount of actions chosen
+	private int pathCost;
+	private int optimalCost;
 	
 	/**
 	 * Constructors
@@ -21,13 +23,16 @@ public class PuzzleProblem implements Problem {
 	public PuzzleProblem(String ini, String goal){
 		this.initState = ini;
 		this.current = new PuzzleState(ini,goal);
+		this.searchCost = 0;
 		this.pathCost = 0;
+		this.optimalCost = this.current.getValue();
 	}
 	public PuzzleProblem(PuzzleProblem prob) {
 		this.current = new PuzzleState((PuzzleState) prob.getState());
 		this.initState = prob.initState;
 		this.actionSequence = prob.getActionSequence();
-		this.pathCost = prob.pathCost;
+		this.searchCost = prob.searchCost;
+		this.optimalCost = prob.getOptCost();
 	}
 	
 	/**
@@ -44,6 +49,10 @@ public class PuzzleProblem implements Problem {
 	public String getActionSequence() 
 		{return actionSequence;}
 	
+	public int getPathCost()
+		{ return pathCost; }
+	public int getOptCost() 
+		{ return optimalCost; }
 	/**
 	 * @return topval	The top neighboring state.
 	 */
@@ -83,6 +92,7 @@ public class PuzzleProblem implements Problem {
 				//System.out.println("Action: " + act + " on " + current.getString());
 				neighbor = new PuzzleState(current.getString(current.getState()),
 											current.getString(current.getGoalState()));
+				searchCost++;
 				neighbor.act(act);
 				neighbors.add(neighbor);
 			}	
@@ -114,7 +124,7 @@ public class PuzzleProblem implements Problem {
 	/**
 	 * @return pathCost the path cost
 	 */
-	public int getSteps() {return pathCost;}
+	public int getSearchCost() {return searchCost;}
 	
 	/**
 	 * Performs an action

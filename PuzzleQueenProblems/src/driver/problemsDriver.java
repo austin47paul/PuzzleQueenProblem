@@ -26,12 +26,12 @@ public class problemsDriver {
 					//System.out.println(init);
 					PuzzleProblemSolver pr = new PuzzleProblemSolver(init,goal);
 					PuzzleProblem[] probs = (PuzzleProblem[]) pr.getSolutions();
-					String[] str = buildStrings(probs);
-							
-					System.out.println(str[0]);
-					System.out.println(str[1]);
-					System.out.println(str[2]);
-					System.out.println(str[3]);	
+					//String[] str = buildStrings(probs);
+					//		
+					//System.out.println(str[0]);
+					//System.out.println(str[1]);
+					//System.out.println(str[2]);
+					//	System.out.println(str[3]);	
 					
 				}
 				
@@ -49,31 +49,31 @@ public class problemsDriver {
 	 * @param probs	the end points of the strategies
 	 * @return	str	an array of strings displaying strategy results
 	 */
-	public static String[]  buildStrings( PuzzleProblem[] probs) {
+	/*public static String[]  buildStrings( PuzzleProblem[] probs) {
 		String[] str = new String[4];
 		str[0] = "Steepest Ascent: \nInit: " + probs[0].getInitStr() 
 				+ " End: " + probs[0].getState().getString(probs[0].getState().getState())
 				+ " Goal: " + probs[0].getState().getString(probs[0].getState().getGoalState())
 				+ " " + probs[0].getActionSequence()
-				+ " PathCost " + probs[0].getSteps() + " Heuristic " + probs[0].getState().getValue();
+				+ " SearchCost " + probs[0].getSearchCost() + " Heuristic " + probs[0].getState().getValue();
 		
 		str[1] = "First Choice: \nInit: " + probs[1].getInitStr() 
 				+ " End: " + probs[1].getState().getString(probs[1].getState().getState())
 				+ " Goal: " + probs[1].getState().getString(probs[1].getState().getGoalState())
 				+ " " + probs[1].getActionSequence() + " " 
-				+ " PathCost " + probs[1].getSteps() + " Heuristic " + probs[1].getState().getValue();
+				+ " SearchCost " + probs[1].getSearchCost() + " Heuristic " + probs[1].getState().getValue();
 			
 		str[2] = "Random Restart: \nInit: " + probs[2].getInitStr() 
 				+ " End " + probs[2].getState().getString(probs[2].getState().getState())
 				+ " Goal: " + probs[2].getState().getString(probs[2].getState().getGoalState())
 				+ " Actions: " + probs[2].getActionSequence() + " \n" 
-				+ " PathCost: " + probs[2].getSteps() + " Heuristic " + probs[2].getState().getValue();
+				+ " SearchCost: " + probs[2].getSearchCost() + " Heuristic " + probs[2].getState().getValue();
 					
 		str[3] = "Simulated Annealing: \nInit: " + probs[3].getInitStr() 
 				+ " End: " + probs[3].getState().getString(probs[3].getState().getState())
 				+ " Goal: " + probs[3].getState().getString(probs[3].getState().getGoalState())
-				+ " PathCost " + probs[3].getSteps() + " Heuristic " + probs[3].getState().getValue();
+				+ " SearchCost " + probs[3].getSearchCost() + " Heuristic " + probs[3].getState().getValue();
 		return str;
 	}
-
+*/
 }
